@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,4 +51,5 @@ public class Employee {
     @Column(name = "salary")
     private Double salary;
 
+    private List<Job> jobs;
 }
