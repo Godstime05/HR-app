@@ -5,7 +5,7 @@ import com.godstime.HRMS.app.entities.Position;
 import com.godstime.HRMS.app.exceptions.PositionCreationFailedException;
 import com.godstime.HRMS.app.exceptions.PositionDeletionFailedException;
 import com.godstime.HRMS.app.exceptions.PositionNotFoundException;
-import com.godstime.HRMS.app.repository.PositionRepository;
+import com.godstime.HRMS.app.repository.JobPositionRepo;
 import com.godstime.HRMS.app.services.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ import java.util.List;
 @Service
 public class PositionServiceImpl implements PositionService {
 
-    private final PositionRepository positionRepository;
+    private final JobPositionRepo jobPositionRepo;
 
     @Autowired
-    public PositionServiceImpl(PositionRepository positionRepository) {
-        this.positionRepository = positionRepository;
+    public PositionServiceImpl(JobPositionRepo jobPositionRepo) {
+        this.jobPositionRepo = jobPositionRepo;
     }
 
 
@@ -30,7 +30,7 @@ public class PositionServiceImpl implements PositionService {
             throw new PositionCreationFailedException("Position should not contain an ID when creating a new position.");
         }
         try {
-            return positionRepository.save(position);
+            return jobPositionRepo.save(position);
         } catch (Exception e) {
             throw new PositionCreationFailedException("Failed to create new position.");
         }
@@ -42,21 +42,21 @@ public class PositionServiceImpl implements PositionService {
             throw new PositionNotFoundException("Position with ID "+positionId+" not found.");
         }
         position.setId(positionId);
-        return positionRepository.save(position);
+        return jobPositionRepo.save(position);
     }
 
 
 
     @Override
     public Position findById(Long id) throws PositionNotFoundException {
-        return positionRepository.findById(id)
+        return jobPositionRepo.findById(id)
                 .orElseThrow(() -> new PositionNotFoundException("Position with id " + id + " not found"));
 
     }
 
     @Override
     public Position findByFirstName(String firstName) throws PositionNotFoundException {
-        Position position = positionRepository.findByFirstName(firstName);
+        Position position = jobPositionRepo.findByFirstName(firstName);
         if (position == null) {
             throw new PositionNotFoundException("Position with name " + firstName + " not found");
         }
@@ -65,7 +65,7 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public List<Position> findByDepartment(Long departmentId) throws PositionNotFoundException {
-        List<Position> positions = positionRepository.findByDepartment(departmentId);
+        List<Position> positions = jobPositionRepo.findByDepartment(departmentId);
         if (positions.isEmpty()) {
             throw new PositionNotFoundException("Position with department id " + departmentId + " not found");
         }
@@ -74,7 +74,7 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public List<Position> findByEmployee(Employee employeeId) throws PositionNotFoundException {
-        List<Position> positions = positionRepository.findByEmployee(employeeId);
+        List<Position> positions = jobPositionRepo.findByEmployee(employeeId);
         if (positions.isEmpty()) {
             throw new PositionNotFoundException("Position with employee id " + employeeId + " not found");
         }
@@ -84,23 +84,23 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public List<Position> findAll() {
-        return positionRepository.findAll();
+        return jobPositionRepo.findAll();
     }
 
    // @Override
 //    public List<Position> findByEmployeeCount() {
-//        return positionRepository.findByEmployeeCount();
+//        return jobPositionRepo.findByEmployeeCount();
 //    }
 
 //    @Override
 //    public List<Position> findByEmployeeCount(Long departmentId) {
-//        return positionRepository.findByEmployeeCount(departmentId);
+//        return jobPositionRepo.findByEmployeeCount(departmentId);
 //
 //    }
 
     @Override
     public Position getPositionById(Long positionId) {
-        return positionRepository.findById(positionId)
+        return jobPositionRepo.findById(positionId)
                 .orElseThrow(() -> new PositionNotFoundException("Position with ID "+positionId+" not found."));
     }
 
@@ -110,7 +110,7 @@ public class PositionServiceImpl implements PositionService {
             throw new PositionNotFoundException("Position with ID "+positionId+" not found.");
         }
         try {
-            positionRepository.deleteById(positionId);
+            jobPositionRepo.deleteById(positionId);
         } catch (Exception e) {
             throw new PositionDeletionFailedException("Failed to delete position with ID "+positionId+".");
         }
@@ -118,7 +118,7 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public boolean existsById(Long id) {
-        return positionRepository.existsById(id);
+        return jobPositionRepo.existsById(id);
     }
 //////////////////////////////////////////////////////////////////////////////
 

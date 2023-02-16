@@ -40,9 +40,9 @@ public class Employee {
     @Temporal(TemporalType.DATE)
     private Date terminatedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "position_id")
-    private Position position;
+//    @ManyToOne
+//    @JoinColumn(name = "position_id")
+//    private Position position;
 
     @ManyToOne
     @JoinColumn(name = "department_id")
